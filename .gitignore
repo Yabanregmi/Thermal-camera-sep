@@ -1,0 +1,58 @@
+# -------------------------------
+# Node / React Frontend
+# -------------------------------
+node_modules/
+frontend/node_modules/
+frontend/.cache/
+frontend/build/
+frontend/dist/
+*.log
+npm-debug.log*
+yarn-error.log*
+.pnpm-store/
+
+# -------------------------------
+# Python
+# -------------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+.venv/
+env/
+venv/
+*.log
+
+# -------------------------------
+# Databases / Runtime data
+# -------------------------------
+*.db
+*.sqlite
+python/prozess.db
+Output_data/
+recordings/
+*.avi
+*.mp4
+*.mjpg
+
+# -------------------------------
+# System / OS
+# -------------------------------
+.DS_Store
+Thumbs.db
+
+# -------------------------------
+# IDE / Editor
+# -------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -------------------------------
+# Environment / Secrets
+# -------------------------------
+.env
+*.env
