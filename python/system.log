@@ -1,0 +1,38 @@
+2025-08-27 12:44:34,428 [ERROR] websocket-client package not installed, only polling transport is available
+2025-08-27 12:44:34,431 [INFO] Config loaded.
+2025-08-27 12:44:35,530 [ERROR] websocket-client package not installed, only polling transport is available
+2025-08-27 12:44:36,630 [ERROR] websocket-client package not installed, only polling transport is available
+2025-08-27 12:44:37,731 [ERROR] websocket-client package not installed, only polling transport is available
+2025-08-27 12:44:38,832 [ERROR] websocket-client package not installed, only polling transport is available
+2025-08-27 12:44:39,933 [ERROR] websocket-client package not installed, only polling transport is available
+2025-08-27 12:44:41,034 [ERROR] websocket-client package not installed, only polling transport is available
+2025-08-31 21:02:04,916 [INFO] Config loaded.
+2025-09-05 18:53:52,771 [INFO] Config loaded.
+2025-09-05 19:08:41,385 [INFO] Config loaded.
+2025-09-05 19:36:35,980 [INFO] Config loaded.
+2025-09-05 20:03:02,268 [INFO] Config loaded.
+2025-09-06 11:18:28,528 [INFO] Config loaded.
+2025-09-06 11:20:09,740 [INFO] Config loaded.
+2025-09-06 11:24:12,920 [INFO] Config loaded.
+2025-09-06 11:31:13,945 [INFO] Config loaded.
+2025-09-06 12:01:14,350 [INFO] Config loaded.
+2025-09-06 12:08:02,249 [INFO] Config loaded.
+2025-09-06 13:58:23,282 [INFO] Config loaded.
+2025-09-06 13:58:24,261 [INFO] [DB] Connected to prozess.db
+2025-09-06 14:02:31,092 [INFO] Config loaded.
+2025-09-06 14:05:24,901 [INFO] Config loaded.
+2025-09-06 14:05:25,853 [INFO] [DB] Connected to prozess.db
+2025-09-06 22:03:02,206 [INFO] Config loaded.
+2025-09-06 22:03:03,231 [INFO] [DB] Connected to prozess.db
+2025-09-07 15:15:03,551 [INFO] Config loaded.
+2025-09-07 15:15:04,559 [INFO] [DB] Connected to prozess.db
+2025-09-07 15:15:22,305 [INFO] HUPE TRIGGERED
+2025-09-07 15:15:22,305 [INFO] HUPE Trigger succeeded on attempt 1.
+2025-09-07 15:15:22,305 [INFO] BLITZ TRIGGERED
+2025-09-07 15:15:22,305 [INFO] BLITZ Trigger succeeded on attempt 1.
+2025-09-07 15:15:22,305 [INFO] RELAIS SET TO: ON
+2025-09-07 15:15:22,305 [INFO] Set RELAIS ON succeeded on attempt 1.
+2025-09-07 15:15:22,306 [INFO] Processing anomaly event at 50.54°C (20250907_151522)
+2025-09-07 15:15:22,306 [INFO] [DB] Connected to prozess.db
+2025-09-07 15:15:22,317 [INFO] [DB] Connection closed.
+2025-09-07 15:15:27,547 [INFO] Combined anomaly video saved as Output_data/merged_anomaly_temp50_20250907_151522.avi

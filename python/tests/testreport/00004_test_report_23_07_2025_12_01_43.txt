@@ -1,0 +1,22 @@
+========================================
+Testbericht
+Datum und Uhrzeit: 23_07_2025_12_01_43
+========================================
+
+test_multiprocess_logging (tests.test_myLogger.TestLoggerWithQueue.test_multiprocess_logging) ... FAIL
+test_invalid_level_raises (tests.test_myLogger.Test_myLogger.test_invalid_level_raises) ... ok
+test_valid_levels (tests.test_myLogger.Test_myLogger.test_valid_levels) ... ok
+test_process_lifecycle (tests.test_myProcesses.TestProcessManager.test_process_lifecycle) ... ok
+
+======================================================================
+FAIL: test_multiprocess_logging (tests.test_myLogger.TestLoggerWithQueue.test_multiprocess_logging)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/tub/App/python/tests/test_myLogger.py", line 95, in test_multiprocess_logging
+    self.assertIn(f"{name}", content)
+AssertionError: 'Process-1' not found in ''
+
+----------------------------------------------------------------------
+Ran 4 tests in 3.639s
+
+FAILED (failures=1)

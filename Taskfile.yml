@@ -1,0 +1,154 @@
+version: '3'
+
+tasks:
+  install_python:
+    cmds:
+      - python -m venv python/.venv
+      - test -d python/.venv || python3 -m venv python/.venv
+      - python/.venv/bin/pip install --upgrade pip
+      - python/.venv/bin/pip install -r python/requirements.txt
+
+  install_cpp:
+    cmds:
+      - echo "Installiere C++-Abhängigkeiten (z.B. mit vcpkg oder apt-get)"
+      # - vcpkg install <paket> # Beispiel
+
+  install_backend:
+    cmds:
+      - npm install --save-dev @types/express @types/socket.io
+      - npm install --prefix backend
+
+  install_frontend:
+    cmds:
+      - npm install --prefix frontend
+
+  install_linux:
+    desc: "Installiert alle nötigen Systempakete für Linux"
+    cmds:
+      - sudo apt-get update
+      - sudo bash -c 'echo "options uvcvideo nodrop=1" > /etc/modprobe.d/uvcvideo.conf'
+      - sudo apt-get install -y cmake freeglut3-dev libusb-1.0-0-dev libglut-dev libudev-dev
+      - sudo dpkg -i libirimager-8.9.3-ubuntu-22.04-arm64.deb || sudo apt-get -f install -y
+      - sudo apt install -y ./otcsdk-10.0.0-*.deb || sudo apt-get -f install -y
+      - sudo ir_download_calibration
+      - ir_generate_configuration > $(ir_find_serial).xml
+
+  install_all:
+    deps: [install_linux, install_python, install_cpp, install_backend, install_frontend]
+
+  build_cpp:
+    cmds:
+      - cmake -S cpp -B cpp/build
+      - cmake --build cpp/build
+
+  test_cpp:
+    cmds:
+      - ./cpp/build/myTests
+
+  test_python:
+    cmds:
+      - python/.venv/bin/python python/tests_runner.py
+
+  test_backend:
+    cmds:
+      - npm test --prefix backend
+
+  test_frontend:
+    cmds:
+      - npm test --prefix frontend
+
+  test_all:
+    deps: [test_cpp, test_python, test_backend, test_frontend]
+
+  # ===== Code-Ausführung =====
+
+  run_python:
+    cmds:
+      - python/.venv/bin/python python/main.py
+
+  run_cpp:
+    cmds:
+      - ./cpp/build/main # Passe den Namen ggf. an, z.B. main, app, etc.
+
+  run_backend:
+    cmds:
+      - npm run dev --prefix backend # Starte TypeScript direkt (ts-node)
+      #- npm start --prefix backend
+
+  run_frontend:
+    cmds:
+      - npm start --prefix frontend
+
+  run_all:
+    deps: [run_python, run_backend, run_frontend]
+
+  # ===== Clean-Task =====
+  clean:
+    cmds:
+      - rm -rf cpp/build
+      - rm -rf backend/node_modules
+      - rm -rf backend/dist
+      - rm -rf frontend/node_modules
+      - rm -rf backend/tsconfig.tsbuildinfo
+      - find python -name "__pycache__" -type d -exec rm -rf {} +
+      - find python -name "*.pyc" -delete
+      - rm -rf python/venv
+      - echo "Alle Build- und Cache-Verzeichnisse entfernt."
+
+  # ==== Docs erzeugen
+# 1. Für das gesamte Projekt (rekursiv)
+  pyreverse:project:
+    desc: "Klassendiagramm für das gesamte Projekt erzeugen"
+    cmds:
+      - |
+        mkdir -p output && \
+        cd output && \
+        pyreverse -o plantuml -p ProjektUML ../python && \
+        pyreverse -o plantuml -p mainUML ../python/main.py && \
+        pyreverse -o plantuml -p myProcessesUML ../python/my_processes.py && \
+        pyreverse -o plantuml -p myRelaisUML ../python/my_relais.py && \
+        pyreverse -o plantuml -p globalMpLoggerUML ../python/global_mp_logger.py
+
+
+plantuml:project:
+  desc: "Projekt-Klassendiagramm als PNG/PDF rendern"
+  cmds:
+    -
+      cd output && \
+      plantuml -tpng packages_ProjektUML.plantuml && \
+      plantuml -tpng classes_mainUML.plantuml && \
+      plantuml -tpng classes_myProcessesUML.plantuml && \
+      plantuml -tpng classes_myRelaisUML.plantuml && \
+      plantuml -tpng classes_globalMpLoggerUML.plantuml
+    -
+      cd output && \
+      plantuml -tpdf packages_ProjektUML.plantuml && \
+      plantuml -tpdf classes_mainUML.plantuml && \
+      plantuml -tpdf classes_myProcessesUML.plantuml && \
+      plantuml -tpdf classes_myRelaisUML.plantuml && \
+      plantuml -tpdf classes_globalMpLoggerUML.plantuml
+
+  uml:project:
+    desc: "Klassendiagramm für das gesamte Projekt erzeugen und rendern"
+    deps: [pyreverse:project, plantuml:project]
+
+  # 2. Für eine gezielt angegebene Datei (z.B. modul.py)
+  pyreverse:file:
+    desc: "Klassendiagramm für eine bestimmte Python-Datei erzeugen"
+    vars:
+      FILE: '{{.FILE | default "main.py"}}'
+      NAME: '{{.NAME | default "DateiUML"}}'
+    cmds:
+      - pyreverse -o plantuml -p {{.NAME}} {{.FILE}}
+
+  plantuml:file:
+    desc: "Datei-Klassendiagramm als PNG/PDF rendern"
+    vars:
+      NAME: '{{.NAME | default "DateiUML"}}'
+    cmds:
+      - plantuml -tpng classes_{{.NAME}}.plantuml
+      - plantuml -tpdf classes_{{.NAME}}.plantuml
+
+  uml:file:
+    desc: "Klassendiagramm für gezielte Datei erzeugen und rendern"
+    deps: [pyreverse:file, plantuml:file]
